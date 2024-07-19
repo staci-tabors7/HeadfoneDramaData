@@ -1,0 +1,15 @@
+import pandas as pd
+
+def update_data(new_data):
+    try:
+        existing_data = pd.read_csv('audio_drama_data.csv')
+    except FileNotFoundError:
+        existing_data = pd.DataFrame(columns=['Title', 'views', 'likes'])
+    
+    updated_data = pd.concat([existing_data, new_data]).drop_duplicates(subset='Title').reset_index(drop=True)
+    updated_data.to_csv('audio_drama_data.csv', index=False)
+
+if __name__ == "__main__":
+    new_data = pd.read_csv('new_data.csv')
+    update_data(new_data)
+
